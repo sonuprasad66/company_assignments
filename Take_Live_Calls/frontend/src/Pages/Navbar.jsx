@@ -25,7 +25,7 @@ export const Navbar = () => {
   return (
     <>
       {isAuth || token ? (
-        <Box boxShadow="xl" p="6">
+        <Box boxShadow="md" p="6">
           <Flex justifyContent={"space-around"} alignItems={"center"}>
             <Link to="/">
               <Heading>Home</Heading>

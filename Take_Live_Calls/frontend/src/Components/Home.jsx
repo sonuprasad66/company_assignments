@@ -1,9 +1,19 @@
-import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getProfile } from "../Redux/Auth/action";
 import { getEvent } from "../Redux/Event/action";
+import { addJoinEvent } from "../Redux/JoinEvent/action";
 
 export const Home = () => {
   const token = localStorage.getItem("token");
@@ -11,7 +21,6 @@ export const Home = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.AuthReducer.currentUser);
   const event = useSelector((state) => state.EventReducer.event);
-  // console.log("current ", currentUser);
 
   useEffect(() => {
     dispatch(getProfile());
@@ -22,12 +31,32 @@ export const Home = () => {
     navigate("/login");
   }
 
-  const handleMyEventJoiner = () => {};
-
-  const handleEventJoin = () => {};
+  const handleEventJoin = (id) => {
+    let payload = { id: id };
+    dispatch(addJoinEvent(payload)).then((res) => {
+      console.log(res);
+      dispatch(getEvent());
+      alert(res.payload);
+    });
+  };
 
   return (
     <>
+      <Flex
+        justifyContent={"space-around"}
+        alignItems={"center"}
+        boxShadow="md"
+        p="6"
+      >
+        <Flex>
+          <Input placeholder="Search Event Name" w={"500px"} />
+          <Button>Search</Button>
+        </Flex>
+        <Select placeholder="Filter By Event Name" w={"300px"}>
+          <option>Cricket</option>
+        </Select>
+      </Flex>
+
       <Box>
         {event?.map((item) => (
           <>
@@ -36,12 +65,16 @@ export const Home = () => {
               h={"150px"}
               m={"30px auto"}
               boxShadow={"outline"}
-              p={"6"}
+              // p={"6"}
               justifyContent={"space-around"}
               alignItems={"center"}
             >
               <Link to={`/singleevent/${item._id}`}>
-                <Flex justifyContent={"space-between"} alignItems={"center"}>
+                <Flex
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  w={"130%"}
+                >
                   <Image
                     w={"100px"}
                     h={"100px"}
@@ -58,15 +91,22 @@ export const Home = () => {
                     <Heading size={"50px"}>End At :- {item.endtime}</Heading>
                   </Box>
                   <Heading size={"70px"}>
-                    Player Left :-
+                    Event Left :-{" "}
                     {item.playerslimit ? item.playerslimit : "Out Of Slot"}
                   </Heading>
                 </Flex>
               </Link>
               {currentUser._id === item.user_id ? (
-                <Button onClick={handleMyEventJoiner}>My Event</Button>
+                <Link to={`/myevent/${item._id}`}>
+                  <Button>My Event</Button>
+                </Link>
               ) : (
-                <Button onClick={handleEventJoin}>Join Event</Button>
+                <Button
+                  onClick={() => handleEventJoin(item._id)}
+                  disabled={item.playerslimit === 0}
+                >
+                  Join Event
+                </Button>
               )}
             </Flex>
           </>
