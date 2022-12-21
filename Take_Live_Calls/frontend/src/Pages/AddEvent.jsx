@@ -15,13 +15,18 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addEvent, getEvent } from "../Redux/Event/action";
 
 export const AddEvent = () => {
   const [data, setData] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // const isAuth = useSelector((state) => state.AuthReducer.isAuth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,13 +38,17 @@ export const AddEvent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(data);
+    dispatch(addEvent(data)).then((res) => {
+      onClose();
+      dispatch(getEvent());
+    });
   };
 
   const handleEvent = () => {
     if (token) {
       onOpen();
     } else {
+      alert("Please Login First");
       navigate("/login");
     }
   };

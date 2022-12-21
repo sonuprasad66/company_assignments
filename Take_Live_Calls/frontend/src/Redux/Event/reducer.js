@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 
 const initialState = {
   event: [],
+  singleEvent: {},
   isLoading: false,
   isError: false,
 };
@@ -27,6 +28,14 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         isError: true,
         event: [],
+      };
+
+    case types.GET_SINGLE_EVENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        singleEvent: payload,
       };
 
     default:

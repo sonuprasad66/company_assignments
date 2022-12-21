@@ -4,14 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProfile } from "../Redux/Auth/action";
 import { AddEvent } from "./AddEvent";
+import * as types from "../Redux/Auth/actionTypes";
 
 export const Navbar = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.AuthReducer.currentUser);
 
+  const isAuth = useSelector((state) => state.AuthReducer.isAuth);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
+    dispatch({ type: types.USER_LOGOUT_SUCCESS });
   };
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export const Navbar = () => {
 
   return (
     <>
-      {token ? (
+      {isAuth || token ? (
         <Box boxShadow="xl" p="6">
           <Flex justifyContent={"space-around"} alignItems={"center"}>
             <Link to="/">
@@ -29,6 +33,7 @@ export const Navbar = () => {
             <Link>
               <AddEvent />
             </Link>
+
             <Flex alignItems={"center"} justifyContent={"center"}>
               <Image
                 w={"40px"}

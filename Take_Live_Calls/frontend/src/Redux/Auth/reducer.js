@@ -41,6 +41,12 @@ export const reducer = (state = initialState, action) => {
         currentUser: payload,
       };
 
+    case types.USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isAuth: false,
+      };
+
     default:
       return state;
   }
