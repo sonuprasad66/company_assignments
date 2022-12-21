@@ -33,8 +33,24 @@ const getSingleEvent = async (req, res) => {
   res.send(singleEvent);
 };
 
+const updateEvent = async (req, res) => {
+  const { id } = req.body;
+  const patchEvent = await eventModel.findOne({ _id: id });
+
+  if (patchEvent.playerslimit == 0) {
+    res.send("All event have been booked");
+  } else {
+    const updatedData = await eventModel.updateOne(
+      { _id: id },
+      { $set: { playerslimit: patchEvent.playerslimit - 1 } }
+    );
+    res.send("Event Join Successfully");
+  }
+};
+
 module.exports = {
   addEvent,
   getEvent,
   getSingleEvent,
+  updateEvent,
 };

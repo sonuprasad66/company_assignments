@@ -4,12 +4,20 @@ const {
   addEvent,
   getEvent,
   getSingleEvent,
+  updateEvent,
 } = require("../Controller/Event.controller");
+const { addJoinUserEvent } = require("../Controller/JoinUser.controller");
 const { authentication } = require("../Middleware/authenticate");
 
 eventRouter.post("/addevent", authentication, addEvent);
 eventRouter.get("/getevent", getEvent);
 eventRouter.get("/getsingleevent/:id", getSingleEvent);
+eventRouter.patch(
+  "/updateevent",
+  authentication,
+  addJoinUserEvent,
+  updateEvent
+);
 
 module.exports = {
   eventRouter,

@@ -7,6 +7,7 @@ require("dotenv").config();
 const { connection } = require("./Config/db");
 const { userRouter } = require("./Routes/User.Route");
 const { eventRouter } = require("./Routes/Event.Route");
+const { JoinUserRouter } = require("./Routes/JoinUser.Route");
 
 app.get("/", (req, res) => {
   res.send("Welcome to MainRoutes");
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 
 app.use("/", userRouter);
 app.use("/", eventRouter);
+app.use("/", JoinUserRouter);
 
 app.listen(process.env.PORT, async () => {
   try {
