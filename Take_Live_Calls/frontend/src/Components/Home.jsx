@@ -9,35 +9,56 @@ import {
   Select,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getProfile } from "../Redux/Auth/action";
-import { getEvent } from "../Redux/Event/action";
+import {
+  getEvent,
+  getFilterByEventName,
+  getSearch,
+} from "../Redux/Event/action";
 import { addJoinEvent } from "../Redux/JoinEvent/action";
 
 export const Home = () => {
+  const [search, setSearch] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.AuthReducer.currentUser);
   const event = useSelector((state) => state.EventReducer.event);
+  const categories = useSelector((state) => state.EventReducer.category);
 
   useEffect(() => {
     dispatch(getProfile());
     dispatch(getEvent());
   }, [dispatch]);
 
-  if (!token) {
-    navigate("/login");
-  }
-
   const handleEventJoin = (id) => {
     let payload = { id: id };
-    dispatch(addJoinEvent(payload)).then((res) => {
-      console.log(res);
-      dispatch(getEvent());
-      alert(res.payload);
-    });
+    if (token) {
+      dispatch(addJoinEvent(payload)).then((res) => {
+        dispatch(getEvent());
+        alert(res.payload);
+      });
+    } else {
+      alert("Please Login First");
+      navigate("/login");
+    }
+  };
+
+  const handleFilter = (e) => {
+    dispatch(getFilterByEventName(e.target.value));
+  };
+
+  const handleSearch = (e) => {
+    dispatch(getSearch(search));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      dispatch(getSearch(search));
+    }
   };
 
   return (
@@ -49,11 +70,24 @@ export const Home = () => {
         p="6"
       >
         <Flex>
-          <Input placeholder="Search Event Name" w={"500px"} />
-          <Button>Search</Button>
+          <Input
+            placeholder="Search Event Name"
+            w={"500px"}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <Button onClick={handleSearch}>Search</Button>
         </Flex>
-        <Select placeholder="Filter By Event Name" w={"300px"}>
-          <option>Cricket</option>
+        <Select
+          placeholder="Filter By Event Name"
+          w={"300px"}
+          onChange={handleFilter}
+        >
+          {categories?.map((item) => (
+            <>
+              <option value={item.eventname}>{item.eventname}</option>
+            </>
+          ))}
         </Select>
       </Flex>
 
@@ -65,7 +99,6 @@ export const Home = () => {
               h={"150px"}
               m={"30px auto"}
               boxShadow={"outline"}
-              // p={"6"}
               justifyContent={"space-around"}
               alignItems={"center"}
             >

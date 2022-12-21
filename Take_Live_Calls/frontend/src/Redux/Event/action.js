@@ -22,8 +22,8 @@ export const getEvent = (payload) => (dispatch) => {
   return axios
     .get(`http://localhost:8080/getevent`)
     .then((res) => {
-      console.log(res.data);
-      return dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
+      dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
+      dispatch({ type: types.GET_CATEGORIES_SUCCESS, payload: res.data });
     })
     .catch((err) => {
       console.log(err);
@@ -43,5 +43,31 @@ export const getSingleEvent = (payload) => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
+export const getSearch = (payload) => (dispatch) => {
+  dispatch({ type: types.GET_EVENT_REQUEST });
+  return axios
+    .get(`http://localhost:8080/getevent?search=${payload}`)
+    .then((res) => {
+      return dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: types.GET_EVENT_FAILURE, payload: err });
+    });
+};
+
+export const getFilterByEventName = (payload) => (dispatch) => {
+  dispatch({ type: types.GET_EVENT_REQUEST });
+  return axios
+    .get(`http://localhost:8080/getevent?filter_event=${payload}`)
+    .then((res) => {
+      return dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: types.GET_EVENT_FAILURE, payload: err });
     });
 };
