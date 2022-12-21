@@ -23,8 +23,18 @@ const addEvent = async (req, res) => {
 };
 
 const getEvent = async (req, res) => {
-  const event = await eventModel.find();
-  res.send(event);
+  const { filter_event, search } = req.query;
+
+  if (search) {
+    const event = await eventModel.find({ eventname: search });
+    res.send(event);
+  } else if (filter_event) {
+    const event = await eventModel.find({ eventname: filter_event });
+    res.send(event);
+  } else {
+    const event = await eventModel.find();
+    res.send(event);
+  }
 };
 
 const getSingleEvent = async (req, res) => {
