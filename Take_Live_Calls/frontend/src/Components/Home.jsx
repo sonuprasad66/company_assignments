@@ -37,10 +37,9 @@ export const Home = () => {
   const handleEventJoin = (id) => {
     let payload = { id: id };
     if (token) {
-      dispatch(addJoinEvent(payload)).then((res) => {
-        dispatch(getEvent());
-        alert(res.payload);
-      });
+      dispatch(addJoinEvent(payload));
+      dispatch(getEvent());
+      alert("Request sended");
     } else {
       alert("Please Login First");
       navigate("/login");
