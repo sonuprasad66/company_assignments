@@ -7,7 +7,7 @@ export const addEvent = (payload) => (dispatch) => {
     headers: { Authorization: `Bearer ${token}` },
   };
   return axios
-    .post(`http://localhost:8080/addevent`, payload, config)
+    .post(`https://take-live-calls.onrender.com/addevent`, payload, config)
     .then((res) => {
       // console.log(res.data);
       return dispatch({ type: types.ADD_EVENT_SUCCESS, payload: res.data });
@@ -20,7 +20,7 @@ export const addEvent = (payload) => (dispatch) => {
 export const getEvent = (payload) => (dispatch) => {
   dispatch({ type: types.GET_EVENT_REQUEST });
   return axios
-    .get(`http://localhost:8080/getevent`)
+    .get(`https://take-live-calls.onrender.com/getevent`)
     .then((res) => {
       dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
       dispatch({ type: types.GET_CATEGORIES_SUCCESS, payload: res.data });
@@ -33,7 +33,7 @@ export const getEvent = (payload) => (dispatch) => {
 
 export const getSingleEvent = (payload) => (dispatch) => {
   return axios
-    .get(`http://localhost:8080/getsingleevent/${payload}`)
+    .get(`https://take-live-calls.onrender.com/getsingleevent/${payload}`)
     .then((res) => {
       // console.log(res.data);
       return dispatch({
@@ -49,7 +49,7 @@ export const getSingleEvent = (payload) => (dispatch) => {
 export const getSearch = (payload) => (dispatch) => {
   dispatch({ type: types.GET_EVENT_REQUEST });
   return axios
-    .get(`http://localhost:8080/getevent?search=${payload}`)
+    .get(`https://take-live-calls.onrender.com/getevent?search=${payload}`)
     .then((res) => {
       return dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
     })
@@ -62,7 +62,9 @@ export const getSearch = (payload) => (dispatch) => {
 export const getFilterByEventName = (payload) => (dispatch) => {
   dispatch({ type: types.GET_EVENT_REQUEST });
   return axios
-    .get(`http://localhost:8080/getevent?filter_event=${payload}`)
+    .get(
+      `https://take-live-calls.onrender.com/getevent?filter_event=${payload}`
+    )
     .then((res) => {
       return dispatch({ type: types.GET_EVENT_SUCCESS, payload: res.data });
     })

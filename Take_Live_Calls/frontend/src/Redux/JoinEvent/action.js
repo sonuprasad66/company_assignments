@@ -7,7 +7,7 @@ export const addJoinEvent = (payload) => (dispatch) => {
     headers: { Authorization: `Bearer ${token}` },
   };
   return axios
-    .patch(`http://localhost:8080/updateevent`, payload, config)
+    .patch(`https://take-live-calls.onrender.com/updateevent`, payload, config)
     .then((res) => {
       return dispatch({
         type: types.ADD_JOIN_EVENT_SUCCESS,
@@ -22,7 +22,7 @@ export const addJoinEvent = (payload) => (dispatch) => {
 export const getJoinEvent = (payload) => (dispatch) => {
   dispatch({ type: types.GET_JOIN_EVENT_REQUEST });
   return axios
-    .get(`http://localhost:8080/getjoinuser/${payload}`)
+    .get(`https://take-live-calls.onrender.com/getjoinuser/${payload}`)
     .then((res) => {
       // console.log(res.data);
       return dispatch({

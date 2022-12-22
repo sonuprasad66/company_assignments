@@ -9,7 +9,7 @@ const acceptNotification = (payload) => (dispatch) => {
   };
   return axios
     .patch(
-      `http://localhost:8080/updateevent?accept=${payload.user_id}`,
+      `https://take-live-calls.onrender.com/updateevent?accept=${payload.user_id}`,
       { id: payload.id },
       config
     )
@@ -31,7 +31,7 @@ export const rejectNotification = (payload) => (dispatch) => {
   };
   return axios
     .patch(
-      `http://localhost:8080/updateevent?reject=${payload.user_id}`,
+      `https://take-live-calls.onrender.com/updateevent?reject=${payload.user_id}`,
       { id: payload.id },
       config
     )
@@ -49,7 +49,7 @@ export const rejectNotification = (payload) => (dispatch) => {
 export const getNotification = (payload) => (dispatch) => {
   dispatch({ type: types.GET_NOTIFICATION_REQUEST });
   return axios
-    .get(`http://localhost:8080/getnotification/${payload}`)
+    .get(`https://take-live-calls.onrender.com/getnotification/${payload}`)
     .then((res) => {
       return dispatch({
         type: types.GET_NOTIFICATION_SUCCESS,
