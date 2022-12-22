@@ -17,8 +17,8 @@ const addJoinUserEvent = async (req, res, next) => {
   });
   await new_joinevent.save();
   req.body.id = id;
+  req.body.user_id = user_id;
   next();
-  //   res.send("Event Joined successfully");
 };
 
 const getJoinUser = async (req, res) => {

@@ -1,5 +1,6 @@
 const express = require("express");
 const { eventModel } = require("../Models/Event.model");
+const { notificationModel } = require("../Models/Notification.model");
 
 const addEvent = async (req, res) => {
   const { eventname, description, starttime, endtime, playerslimit, user_id } =
@@ -44,7 +45,7 @@ const getSingleEvent = async (req, res) => {
 };
 
 const updateEvent = async (req, res) => {
-  const { id } = req.body;
+  const { user_id, id } = req.body;
   const patchEvent = await eventModel.findOne({ _id: id });
 
   if (patchEvent.playerslimit == 0) {
@@ -54,7 +55,10 @@ const updateEvent = async (req, res) => {
       { _id: id },
       { $set: { playerslimit: patchEvent.playerslimit - 1 } }
     );
-    res.send("Event Join Successfully");
+    const deletenotification = await notificationModel.findOneAndDelete({
+      user_id: user_id,
+    });
+    res.send("User Added Successfully");
   }
 };
 
