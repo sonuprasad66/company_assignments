@@ -6,8 +6,8 @@ app.use(cors());
 require("dotenv").config();
 const { connection } = require("./Config/db");
 const { userRouter } = require("./Routes/User.Route");
-const { eventRouter } = require("./Routes/Event.Route");
-const { JoinUserRouter } = require("./Routes/JoinUser.Route");
+const { eventRouter } = require("./Routes/Event.route");
+const { JoinUserRouter } = require("./Routes/JoinUser.route");
 
 app.get("/", (req, res) => {
   res.send("Welcome to MainRoutes");
