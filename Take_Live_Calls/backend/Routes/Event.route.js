@@ -23,8 +23,6 @@ eventRouter.patch(
   addJoinUserEvent,
   updateEvent
 );
-
-// eventRouter.patch("/getnotification/:id", getNotification);
 eventRouter.get("/getnotification/:id", getNotification);
 
 module.exports = {

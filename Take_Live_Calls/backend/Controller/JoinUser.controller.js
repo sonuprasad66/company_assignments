@@ -27,7 +27,14 @@ const getJoinUser = async (req, res) => {
   res.send(joinUser);
 };
 
+const getJoinCurrentUser = async (req, res) => {
+  const { username } = req.params;
+  const currentUserJoinEvent = await joinuserModel.find({ username: username });
+  res.send(currentUserJoinEvent);
+};
+
 module.exports = {
   addJoinUserEvent,
   getJoinUser,
+  getJoinCurrentUser,
 };
