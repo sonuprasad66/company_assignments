@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 
 const initialState = {
   joinevent: [],
+  currentjoinEvent: [],
   isLoading: false,
   isError: false,
 };
@@ -27,6 +28,14 @@ export const reducer = (state = initialState, action) => {
         isLoading: false,
         isError: true,
         joinevent: [],
+      };
+
+    case types.GET_CURRENT_USER_JOIN_EVENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        currentjoinEvent: payload,
       };
 
     default:

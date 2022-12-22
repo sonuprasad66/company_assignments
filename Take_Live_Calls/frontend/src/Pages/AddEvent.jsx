@@ -26,8 +26,6 @@ export const AddEvent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const isAuth = useSelector((state) => state.AuthReducer.isAuth);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({

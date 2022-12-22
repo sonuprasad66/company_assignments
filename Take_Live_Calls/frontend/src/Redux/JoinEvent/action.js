@@ -35,3 +35,20 @@ export const getJoinEvent = (payload) => (dispatch) => {
       dispatch({ type: types.GET_JOIN_EVENT_FAILURE, payload: err });
     });
 };
+
+export const getJoinCurrentUser = (payload) => (dispatch) => {
+  return axios
+    .get(
+      `https://take-live-calls.onrender.com/getcurrentjoinuserevent/${payload}`
+    )
+    .then((res) => {
+      console.log(res.data);
+      return dispatch({
+        type: types.GET_CURRENT_USER_JOIN_EVENT_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
